@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#include <queue>
 using namespace std;
 
 struct node
@@ -68,6 +70,30 @@ void postOrderTraversal(node *root)
     cout << root->val << " ";
 }
 
+vector<vector<int>> levelOrder(node *root)
+{
+    vector<vector<int>> ans;
+    queue<node *> q;
+    q.push(root);
+    while (!q.empty())
+    {
+        int size = q.size();
+        vector<int> v;
+        for (int i = 0; i < size; i++)
+        {
+            node *Node = q.front();
+            q.pop();
+            if (Node->left != NULL)
+                q.push(Node->left);
+            if (Node->right != NULL)
+                q.push(Node->right);
+            v.push_back(Node->val);
+        }
+        ans.push_back(v);
+    }
+    return ans;
+}
+
 int main()
 {
     // int n;
@@ -86,4 +112,14 @@ int main()
     inOrderTraversal(root);
     cout << endl;
     postOrderTraversal(root);
+    cout << endl;
+    vector<vector<int>> ans = levelOrder(root);
+    for (int i = 0; i < ans.size(); i++)
+    {
+        for (int j = 0; j < ans[i].size(); j++)
+        {
+            cout << ans[i][j] << " ";
+        }
+        cout << endl;
+    }
 }
